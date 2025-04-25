@@ -16,18 +16,16 @@ public:
 
     void SetPoints(double _in) { points = _in; }
     void AddPoints(double _in) { points += _in; }
+    void SubtractPoints(double _in) { points -= _in; }
     int GetPoints() { return points; }
     int GetSpecies() const { return species; }
 
     void Process(int more_points)
     {
-        std::cout << "Processing" << std::endl; // feel free to get rid of this
         points = points + more_points;
     }
     emp::Ptr<Organism> CheckReproduction()
     {
-        std::cout << "Reproducing" << std::endl;
-        std::cout << points << std::endl;
         if (points >= 1000)
         {
 

@@ -34,17 +34,8 @@ public:
     void Update()
     {
         emp::World<Organism>::Update();
-        std::cout << "Updating!" << std::endl; // feel free to get rid of this
 
-        // Get a permutation and loop it to give everyone 100 points
         emp::vector<size_t> schedule = emp::GetPermutation(random, GetSize());
-        for (int i : schedule)
-        {
-            if (!IsOccupied(i))
-                continue; // skip if org is null
-            pop[i]->Process(points);
-        }
-        // See if anyone can reproduce
         schedule = emp::GetPermutation(random, GetSize());
 
         for (int i : schedule)
@@ -58,11 +49,42 @@ public:
             }
 
             int species = GetOrg(i).GetSpecies();
-            if (species == 0)
+            if (species == 1) // Cow
             {
-                AddOrgAt(ExtractOrganism(i), GetRandomNeighborPos(i));
+                emp::WorldPosition next_pos = GetRandomNeighborPos(i);
+                if (IsOccupied(next_pos))
+                {
+                    emp::Ptr<Organism> next_org = pop[next_pos.GetIndex()];
+                    int next_species = next_org->GetSpecies();
+                    // If Next postion is species 0, then eat it
+                    if (next_species == 0)
+                    {
+                        next_org->SetPoints(0);
+                        RemoveOrgAt(next_pos);
+                        // Give points to the cow
+                        std::cout << "Cow ate grass" << std::endl;
+                        pop[i]->AddPoints(200);
+                    }
+                    if (next_species == 1)
+                    {
+                        // If next position is species 1, then move to a random position
+                        next_pos = GetRandomNeighborPos(i);
+                    }
+                }
+                else
+                {
+                    pop[i]->SubtractPoints(10);
+                    if (pop[i]->GetPoints() < -1000)
+                    {
+                        std::cout << "Cow died" << std::endl;
+                        RemoveOrgAt(i);
+
+                        continue;
+                    }
+                }
+                AddOrgAt(ExtractOrganism(i), next_pos);
             }
-            if (species == 1)
+            if (species == 0)
             {
                 pop[i]->Process(100);
             }

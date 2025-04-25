@@ -28,12 +28,17 @@ public:
         doc << GetToggleButton("Toggle");
         doc << GetStepButton("Step");
 
+        doc << "<h2>Welcome to the Simulation!</h2>";
+        doc << "<p>Green boxes represent grass, and Red represent cows</p>";
+        doc << "<p>Grass grows every 10 steps</p>";
+        doc << "<p>Cows move to eat grass. If they go too long without grass, they die!</p>";
+
         world.Resize(10, 10);
         world.SetPopStruct_Grid(num_w_boxes, num_h_boxes);
 
-        Organism *new_org_0 = new Organism(&random_2, 0, 1);
-        Organism *new_org_1 = new Organism(&random_2, 0, 0);
-        world.Inject(*new_org_0);
+        Organism *new_org_1 = new Organism(&random_2, 0, 1);
+        Organism *new_org_0 = new Organism(&random_2, 0, 0);
+        world.Inject(*new_org_0, 20);
         world.Inject(*new_org_1);
     }
 
@@ -50,11 +55,11 @@ public:
                 if (world.IsOccupied(org_num))
                 {
                     int species = world.GetOrg(org_num).GetSpecies();
-                    if (species == 0)
+                    if (species == 0) // grass
                     {
-                        canvas.Rect(x * RECT_SIDE, y * RECT_SIDE, RECT_SIDE, RECT_SIDE, "Red", "black");
+                        canvas.Rect(x * RECT_SIDE, y * RECT_SIDE, RECT_SIDE, RECT_SIDE, "Green", "black");
                     }
-                    if (species == 1)
+                    if (species == 1) // cow
                     {
                         canvas.Rect(x * RECT_SIDE, y * RECT_SIDE, RECT_SIDE, RECT_SIDE, "Blue", "black");
                     }
