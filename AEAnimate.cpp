@@ -29,17 +29,22 @@ public:
         doc << GetStepButton("Step");
 
         doc << "<h2>Welcome to the Simulation!</h2>";
-        doc << "<p>Green boxes represent grass, and Red represent cows</p>";
+        doc << "<p>Green boxes represent grass, and Blue represent cows</p>";
         doc << "<p>Grass grows every 10 steps</p>";
-        doc << "<p>Cows move to eat grass. If they go too long without grass, they die!</p>";
+        doc << "<p>Cows move to eat grass. If they go too long without eating grass, they die!</p>";
 
         world.Resize(10, 10);
         world.SetPopStruct_Grid(num_w_boxes, num_h_boxes);
 
-        Organism *new_org_1 = new Organism(&random_2, 0, 1);
-        Organism *new_org_0 = new Organism(&random_2, 0, 0);
-        world.Inject(*new_org_0, 20);
-        world.Inject(*new_org_1);
+        for (int i = 0; i < 30; ++i)
+        {
+            world.Inject(*emp::NewPtr<Grass>(&random_2));
+        }
+
+        for (int i = 0; i < 5; ++i)
+        {
+            world.Inject(*emp::NewPtr<Cow>(&random_2));
+        }
     }
 
     void DoFrame() override
