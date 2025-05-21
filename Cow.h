@@ -1,6 +1,9 @@
 #include "Org.h"
 #include "emp/base/Ptr.hpp"
 
+/*
+Cow class inherits from Organism
+*/
 class Cow : public Organism
 {
 public:
@@ -14,6 +17,7 @@ public:
         // Cows don’t gain points passively
     }
 
+    // Cow has it's own reproduction function that returns a new cow
     emp::Ptr<Organism> CheckReproduction() override
     {
         if (points >= 1000)

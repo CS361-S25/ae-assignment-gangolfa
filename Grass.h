@@ -4,6 +4,9 @@
 #include "Org.h"
 #include "emp/base/Ptr.hpp"
 
+/*
+Grass class inherits from orgaism
+*/
 class Grass : public Organism
 {
 public:
@@ -17,6 +20,7 @@ public:
         points += more_points; // Grows over time
     }
 
+    // Grass has it's own reproduction function that returns a new grass organism
     emp::Ptr<Organism> CheckReproduction() override
     {
         if (points >= 1000)
