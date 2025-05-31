@@ -1,6 +1,10 @@
+#ifndef COW_H
+#define COW_H
+
 #include "Org.h"
 #include "emp/base/Ptr.hpp"
 
+#ifdef INCLUDE_COW
 /*
 Cow class inherits from Organism
 */
@@ -30,4 +34,6 @@ public:
     }
 };
 
-#endif
+#endif // INCLUDE_COW
+
+#endif // COW_H
