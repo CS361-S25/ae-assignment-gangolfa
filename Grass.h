@@ -5,7 +5,9 @@
 #include "emp/base/Ptr.hpp"
 
 /*
-Grass class inherits from orgaism
+    Grass class inherits from Organism class
+    Species number is 0
+    Reproduces at 1000 points
 */
 class Grass : public Organism
 {
@@ -23,6 +25,7 @@ public:
     // Grass has it's own reproduction function that returns a new grass organism
     emp::Ptr<Organism> CheckReproduction() override
     {
+        // If it has 1000 points, it can reproduce
         if (points >= 1000)
         {
             emp::Ptr<Organism> offspring = emp::NewPtr<Grass>(random, 0);

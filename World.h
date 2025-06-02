@@ -30,25 +30,32 @@ public:
         return org;
     }
     /*
-    Update is the main method and is run many times throughout the simulation.
+        Update is the main method and is run many times throughout the simulation.
     */
     void Update()
     {
         emp::World<Organism>::Update();
         emp::vector<size_t> schedule = emp::GetPermutation(random, GetSize());
 
+        // For each organism in the schedule, handle its behavior
         for (int i : schedule)
         {
             if (!IsOccupied(i))
                 continue;
 
+            // Can this organism reproduce?
             HandleReproduction(i);
 
+            // Check species
             int species = GetOrg(i).GetSpecies();
+
+            // If cow, handle cow behavior
             if (species == 1)
             {
                 HandleCowBehavior(i);
             }
+
+            // If grass, handle grass behavior
             else if (species == 0)
             {
                 HandleGrassBehavior(i);
@@ -58,23 +65,25 @@ public:
 
 private:
     /*
-    HandleReproduction takes in an integer and uses it to check if a member in the population of the organisms can reproduce,
-    If it can, then that organism should reproduce.
+    Input: int (position in the population)
+    Uses int to check if a member in the population of the organisms can reproduce,
+    If it can, then that organism should reproduce. Works for both grass and cow organisms.
     */
     void HandleReproduction(int i)
     {
         emp::Ptr<Organism> offspring = pop[i]->CheckReproduction();
         if (offspring)
         {
-            DoBirth(*offspring, i);
+            // Place offspring in world
+            AddOrgAt(offspring, GetRandomNeighborPos(i));
         }
     }
     /*
-    HandleCowBehavior is a method for the cow orgaism.
-    It checks a neighbor position of the cow. If the cow has found grass, it should eat the grass and gain points.
+    Input: int (position in the population)
+    Checks a neighbor position of the cow. If the cow has found grass, it should eat the grass and gain points.
     If it finds another cow, it should try again.
 
-    Otherwise, points should be subtracted, and we should check if the cow has too few points and should die.
+    Otherwise, no grass is found. Points should be subtracted, and check if cow should die.
     */
     void HandleCowBehavior(int i)
     {
@@ -114,7 +123,7 @@ private:
         AddOrgAt(ExtractOrganism(i), next_pos);
     }
     /*
-    HandleGrassBehavior is a method for the grass organism.
+    Input: int (position in the population)
     This is a boring method. The grass gets 100 points for every step of update.
     */
     void HandleGrassBehavior(int i)

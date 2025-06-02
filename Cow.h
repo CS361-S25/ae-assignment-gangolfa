@@ -4,9 +4,10 @@
 #include "Org.h"
 #include "emp/base/Ptr.hpp"
 
-#ifdef INCLUDE_COW
 /*
-Cow class inherits from Organism
+    Cow inherits from Organism Class
+    Species number is 1
+    Reproduces at 1000 points
 */
 class Cow : public Organism
 {
@@ -24,6 +25,7 @@ public:
     // Cow has it's own reproduction function that returns a new cow
     emp::Ptr<Organism> CheckReproduction() override
     {
+        // If it has 1000 points, it can reporoduce
         if (points >= 1000)
         {
             emp::Ptr<Organism> offspring = emp::NewPtr<Cow>(random, 0);
@@ -34,6 +36,4 @@ public:
     }
 };
 
-#endif // INCLUDE_COW
-
-#endif // COW_H
+#endif

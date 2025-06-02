@@ -4,6 +4,11 @@
 #include "emp/math/Random.hpp"
 #include "emp/base/Ptr.hpp"
 
+/*
+    Organism is the base class that cow and grass inherit from.
+    It includes bassic getter methods for points, species number, process and check reproduction.
+
+*/
 class Organism
 {
 protected:

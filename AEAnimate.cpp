@@ -4,8 +4,11 @@
 #include "World.h"
 #include "Org.h"
 
+// Initialize variables
+
 emp::web::Document doc{"target"};
 emp::Random random_2{5};
+emp::Random random_1{30};
 OrgWorld world{random_2};
 
 class AEAnimator : public emp::web::Animate
@@ -34,21 +37,25 @@ public:
         doc << "<p>Grass grows every 10 steps</p>";
         doc << "<p>Cows move to eat grass. If they go too long without eating grass, they die!</p>";
 
+        // Set up world
         world.Resize(10, 10);
         world.SetPopStruct_Grid(num_w_boxes, num_h_boxes);
 
-        // Inject each of our organisms
+        // Inject our organisms. First Grass
         for (int i = 0; i < 30; ++i)
         {
-            world.Inject(*emp::NewPtr<Grass>(&random_2));
+            int pos = random_2.GetUInt(world.GetSize());
+            world.AddOrgAt(emp::NewPtr<Grass>(&random_2), pos);
         }
-
+        // Then Cows
         for (int i = 0; i < 5; ++i)
         {
-            world.Inject(*emp::NewPtr<Cow>(&random_2));
+            int pos = random_2.GetUInt(world.GetSize());
+            world.AddOrgAt(emp::NewPtr<Cow>(&random_2), pos);
         }
     }
 
+    // Draw the Canvas and Grid
     void DoFrame() override
     {
         canvas.Clear();
